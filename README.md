@@ -11,10 +11,9 @@ Setup:
 1. First you need to download this repo and place it in the root folder of your Rails project.
 2. Project has separate Gemset, so you need to install all gems with: bundle install
 3. Configure deploy:
-- create deploy environments under deploy/config/deploy/
-- create environments secrets under deploy/config/deploy/secret
-- create your deploy script from exemple in deploy/config/deploy/secret/deploy.rb
-- then you should update config varibles in deploy.rb file, minimal set: server, application_name, repo_url, nginx_server_name.
+- set up deploy environments
+- create your deploy script from example in config/deploy.rb.example
+- then you should update config varibles in deploy.rb file, minimal set: server, application_name, repo_url, nginx_server_name, ruby_version
 
 Deploy:
 =======
