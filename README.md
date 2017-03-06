@@ -20,12 +20,12 @@ Deploy:
 =======
 
 Workflow on new VPS:
-
+```
 cap <environmant> install:adduser_nonpassword user=root
 cap <environmant> install:all
 cap <environmant> setup
 cap <environmant> setup:all
-
+```
 Monit:
 =========
 
