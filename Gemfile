@@ -11,7 +11,6 @@ group :development do
   gem 'capistrano-safe-deploy-to',  '~> 1.1'    # ensures deploy path for the app exists
   gem "capistrano-db-tasks",  git: "https://github.com/gmhawash/capistrano-db-tasks.git"
   gem "capistrano-maintenance",     '~> 1.0',   require: false
-  gem 'rvm1-capistrano3',           '~> 1.4',   require: false
   gem 'capistrano-faster-assets',   '~> 1.0'
   gem 'capistrano-rails-console'
 

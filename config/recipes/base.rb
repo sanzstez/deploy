@@ -2,19 +2,21 @@ namespace :setup do
   desc "Provisioning files"
   task :all do
     on roles(:all) do
-      invoke "yml:setup"
+      invoke "secrets:setup"
       invoke "nginx:setup"
       invoke "nginx:configtest"
       invoke "unicorn:setup"
       invoke "unicorn:script"
+      invoke "nginx:restart"
+      invoke "monit:setup"
     end
   end
 end
 
-namespace :yml do
-  desc "staging.yml.erb from secrets folder"
+namespace :secrets do
+  desc "set up basic secrets.yml file"
   task :setup do
-    template "../deploy/secrets/#{fetch(:stage)}.yml.erb", fetch(:yml_conf_path)
+    template "secrets.yml.erb", fetch(:yml_conf_path), { user: fetch(:user), group: 'sudo' }
   end
 end
 

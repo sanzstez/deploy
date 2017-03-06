@@ -2,7 +2,7 @@ namespace :unicorn do
   desc "Setup all Unicorn configuration"
   task :setup do
     on roles(:all) do
-      template "unicorn.rb.erb", fetch(:unicorn_conf_path)
+      template "unicorn.rb.erb", fetch(:unicorn_conf_path), { user: fetch(:user), group: 'sudo' }
     end
   end
 

@@ -1,19 +1,24 @@
 lock '3.5.0'
 
-server '163.172.154.233', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
-set :application_name, "app_name"
-set :repo_url, 'git@github.com:<user_name>/<project_name>.git'
-set :nginx_server_name, "app_name.com *.also_map_subdomains.com"
+server '45.55.139.58', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
+set :application_name, "learn"
+set :repo_url, 'git@github.com:RailsApps/learn-rails.git'
+set :nginx_server_name, "45.55.139.58"
+set :ruby_version, 'ruby-2.3.1'
 
 set :deploy_user, 'deploy'
 set :user, ENV['user'] || fetch(:deploy_user)
 set :application, "#{fetch :application_name}_#{fetch :stage}"
 set :deploy_to, "/home/#{fetch(:user)}/applications/#{fetch(:application)}"
 set :branch, ENV["REVISION"] || ENV["BRANCH"] || "master"
-set :ruby_version, File.read('.ruby-version').strip
-set :rvm1_ruby_version, "#{fetch(:ruby_version)}@#{fetch(:application_name)}"
-set :rvm1_map_bins, %w{rake gem bundle ruby}
 set :unicorn_name, "unicorn_#{fetch(:application)}"
+
+set :pg_env, fetch(:rails_env)
+set :pg_encoding, "utf8"
+set :pg_database, fetch(:application)
+set :pg_user, fetch(:application_name)
+set :pg_host, "localhost"
+set :pg_password, 'qwerty123'
 
 set :linked_files, %w{config/database.yml config/unicorn.rb config/secrets.yml .ruby-version}
 set :linked_dirs, fetch(:linked_dirs, []) + %w{log pids sockets public/uploads public/assets tmp/cache}
@@ -36,18 +41,7 @@ set :bundle_binstubs, nil
 set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:user) }
 set :keep_releases, 5
 
+after 'postgresql:generate_database_yml', 'pg:setup'
+
 load 'config/config_path.rb'
 Dir.glob('config/recipes/*.rb').each { |r| load r }
-
-set :bundle_exec, "cd #{fetch(:current_path)}; #{fetch(:rvm1_auto_script_path)}/rvm-auto.sh #{fetch(:rvm1_ruby_version)} bundle exec"
-
-before "rvm1:hook", "install:all"
-before "rvm1:install:ruby", "rvm1:install:rvm"
-
-before 'deploy', 'rvm1:install:ruby'
-before 'deploy', 'rvm1:install:gems'
-before 'deploy', 'rvm1:alias:create'
-
-after 'postgresql:generate_database_yml', 'setup:all'
-after 'deploy:check:make_linked_dirs', 'rvm1:create_rvmrc'
-after 'deploy:publishing', 'unicorn:upgrade'   # it's like restart, but with zero downtime

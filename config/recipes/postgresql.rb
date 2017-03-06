@@ -5,15 +5,11 @@ namespace :pg do
 
   desc "Setup all PG configuration"
   # set :pg_templates_path, "deploy/config/templates"
-  set :pg_env, fetch(:rails_env)
-  set :pg_encoding, "utf8"
-  set :pg_database, fetch(:application)
-  set :pg_user, fetch(:application_name)
-  set :pg_host, "localhost"
+
 
   task :setup do
     on roles(:all) do
-      template "postgresql.yml.erb", "#{fetch(:shared_path)}/config/database.yml"
+      template "postgresql.yml.erb", "#{fetch(:shared_path)}/config/database.yml", { user: fetch(:user), group: 'sudo' }
     end
   end
 

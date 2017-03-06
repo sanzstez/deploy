@@ -1,6 +1,4 @@
 check process unicorn with pidfile <%= fetch(:unicorn_pid_path) %>
   start program = "<%= fetch(:unicorn_script_path) %> start"
   stop program = "<%= fetch(:unicorn_script_path) %> stop"
-  if 5 restarts with 5 cycles then timeout
   if does not exist for 1 cycle then restart
-  if does not exist for 2 cycle then <%= monit_notify %>

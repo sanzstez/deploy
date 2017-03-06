@@ -8,6 +8,7 @@
 # Short-Description: Manage unicorn server
 # Description:       Start, stop, restart unicorn server for a specific application.
 ### END INIT INFO
+set -u
 set -e
 
 USAGE="Usage: $0 <start|stop|restart|upgrade|rotate|force-stop>"
@@ -18,7 +19,7 @@ APP_NAME=<%= fetch(:application) %>
 APP_ROOT=<%= fetch(:app_home_path) %>
 
 # environment settings
-CMD="<%= fetch(:bundle_exec) %> unicorn -c $APP_ROOT/current/config/unicorn.rb -E <%= fetch(:rails_env) %> -D"
+CMD="cd $APP_ROOT/current && ( export RAILS_ENV='<%= fetch(:rails_env) %>' ; ~/.rvm/bin/rvm default do bundle exec unicorn -c $APP_ROOT/shared/config/unicorn.rb -E <%= fetch(:rails_env) %> -D  )"
 PID="$APP_ROOT/shared/pids/unicorn.pid"
 OLD_PID="$PID.oldbin"
 

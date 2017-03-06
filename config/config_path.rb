@@ -10,8 +10,7 @@ set :shared_path, "#{fetch(:app_home_path)}/shared"
 set :current_path, "#{fetch(:app_home_path)}/current"
 
 #NGINX
-set :nginx_conf_path, "/etc/nginx/nginx.conf"
-set :nginx_app_conf_path, "/etc/nginx/sites-enabled"
+set :nginx_path, "/etc/nginx"
 
 #UNICORN
 set :unicorn_conf_path, "#{fetch(:shared_path)}/config/unicorn.rb"

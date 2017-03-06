@@ -20,21 +20,11 @@ Deploy:
 =======
 
 Workflow on new VPS:
-1. Create new user (deploy)
-cap setup user=root
 
-2. Then run install command
-cap setup install=true
-
-3. Then deploy your project
-cap deploy
-
-Workflow on new project (VPS with preinstaled soft):
-1. Setup
-cap production setup
-
-3. Then deploy your project
-cap production deploy
+cap <environmant> install:adduser_nonpassword user=root
+cap <environmant> install:all
+cap <environmant> setup
+cap <environmant> setup:all
 
 Monit:
 =========
