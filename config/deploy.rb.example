@@ -43,5 +43,19 @@ set :keep_releases, 5
 
 after 'postgresql:generate_database_yml', 'pg:setup'
 
+task :setup do
+  invoke "requirements:make_dirs"
+end
+
+namespace :requirements do
+  desc 'Create Directories for Puma Pids and Socket'
+  task :make_dirs do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/sockets -p"
+      execute "mkdir #{shared_path}/pids -p"
+    end
+  end
+end
+
 load 'config/config_path.rb'
 Dir.glob('config/recipes/*.rb').each { |r| load r }

@@ -1,9 +1,9 @@
 namespace :munin do
   desc "Setup all Munin configuration"
   task :setup do
-    sudo "rm -f #{fetch(:munin_conf_path)}"
+    #sudo "rm -f #{fetch(:munin_conf_path)}"
 
-    invoke "munin:config"
+    #invoke "munin:config"
   end
 
   task :config do
