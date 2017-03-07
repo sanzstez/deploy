@@ -22,5 +22,8 @@ set :unicorn_script_path, "/etc/init.d/#{fetch(:unicorn_name)}"
 set :monitrc_path, "/etc/monit/monitrc"
 set :monit_conf_path, "/etc/monit/conf.d"
 
+#MUNIN
+set :munin_conf_path, "/etc/munin/munin.conf"
+
 #YML
 set :yml_conf_path, "#{fetch(:shared_path)}/config/secrets.yml"
