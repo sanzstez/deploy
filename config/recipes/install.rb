@@ -61,7 +61,7 @@ namespace :install do
       sudo "apt-get -y install zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxslt1-dev automake"
       sudo "apt-get -y install libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev python-software-properties"
       sudo "apt-get -y install libpq-dev libcurl4-openssl-dev libffi-dev software-properties-common python-software-properties"
-      sudo "apt-get -y install wget htop mc apache2-utils"
+      sudo "apt-get -y install wget htop mc apache2-utils libmagickwand-dev imagemagick"
     end
   end
 

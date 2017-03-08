@@ -2,11 +2,13 @@ namespace :nginx do
   desc "Setup all NGINX configuration"
   task :setup do
     on roles(:all) do
-      sudo "rm -f #{fetch(:nginx_path)}/sites-enabled/default"
-      sudo "rm -f #{fetch(:nginx_path)}/sites-available/default"
+      sudo "rm -f #{fetch(:nginx_path)}/conf.d/default.conf"
+
+      sudo "mkdir #{fetch(:nginx_path)}/sites-enabled -p"
+      sudo "mkdir #{fetch(:nginx_path)}/sites-available -p"
 
       template "nginx.conf.erb", "#{fetch(:nginx_path)}/nginx.conf"
-      template "nginx_app.erb", "#{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)}"
+      template "nginx.app.erb", "#{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)}"
 
       sudo "ln -sf #{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)} #{fetch(:nginx_path)}/sites-enabled/#{fetch(:application_name)}"
     end
