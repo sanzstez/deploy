@@ -7,14 +7,15 @@ namespace :setup do
       invoke "nginx:configtest"
       invoke "unicorn:setup"
       invoke "unicorn:script"
-      invoke "nginx:restart"
       invoke "monit:setup"
+      invoke "munin:setup"
+      invoke "nginx:restart"
     end
   end
 end
 
 namespace :secrets do
-  desc "set up basic secrets.yml file"
+  desc "setup basic secrets.yml file"
   task :setup do
     template "secrets.yml.erb", fetch(:yml_conf_path), { user: fetch(:user), group: 'sudo' }
   end

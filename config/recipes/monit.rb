@@ -8,6 +8,13 @@ namespace :monit do
 
     invoke "monit:syntax"
     invoke "monit:reload"
+    invoke "monit:nginx_basic_auth"
+  end
+
+  task :nginx_basic_auth do
+    on roles(:web) do
+      sudo "htpasswd -cb #{fetch(:nginx_path)}/monit_passwd monit #{fetch(:monit_password)}"
+    end
   end
 
   task :slack_script do
