@@ -26,6 +26,7 @@ cap <environment> install:all
 cap <environment> setup
 cap <environment> setup:all
 ```
+
 Monit:
 =========
 
@@ -34,164 +35,161 @@ monit_password - for configure Basic Auth and access monit on you domain/monit.
 monit_notification_type - for monit motifications (:email, :slack). If you want email notifications you should edit monitrc template file. For slack - slack_notifications.sh.
 
 Then run:
-    ```
-    cap <environmant> monit:setup
-    ```
+```
+cap <environment> monit:setup
+```
 
 This command will:
 
 1. Setup monitrc. To do this separatelly use:
     ```
-    cap <environmant> monit:monitrc
+    cap <environment> monit:monitrc
     ```
 
 2. Setup monit configs to monitor: filesystem, sshd, system, nginx, unicorn, postgresql.
 To do this separatelly use:
     ```
-    cap <environmant> monit:templates"
+    cap <environment> monit:templates
     ```
 
 3. If monit_notification_type seted to "slack", will setup slack notifications script.
 To do this separatelly use:
     ```
-    cap <environmant> monit:slack_script"
+    cap <environment> monit:slack_script
     ```
 
 If monit_notification_type seted to "email", you should
 
 4. Then test monit for correct cofigurations. To do this separatelly use:
     ```
-    cap <environmant> monit:syntax"
+    cap <environment> monit:syntax
     ```
 
 5. And finally reload monit. To do this separatelly use:
     ```
-    cap <environmant> monit:reload
+    cap <environment> monit:reload
     ```
 
 Also you can influence monit using one of the commands:
-    ```
-    cap <environmant> monit:[start stop restart syntax reload]
-    ```
-
+```
+cap <environment> monit:[start stop restart syntax reload]
+```
 
 Nginx:
 =================
 
 To upload nginx global config and nginx project config use:
-    ```
-    cap <environmant> nginx:setup
-    ```
+```
+cap <environment> nginx:setup
+```
 
 To download nginx configs and be sure that it's fine use:
-    ```
-    cap <environmant> nginx:sync
-    ```
+```
+cap <environment> nginx:sync
+```
 
 To influence nginx server use one of next commands:
-    ```
-    cap <environmant> nginx:[start stop restart reload force-reload status configtest rotate upgrade]
-    ```
-
+```
+cap <environment> nginx:[start stop restart reload force-reload status configtest rotate upgrade]
+```
 
 Unicorn:
 =================
 
 To upload unicorn config use:
-    ```
-    cap <environmant> unicorn:setup
-    ```
+```
+cap <environment> unicorn:setup
+```
 
 To upload unicorn script into init.d folder use:
-    ```
-    cap <environmant> unicorn:script
-    ```
+```
+cap <environment> unicorn:script
+```
 
 To download unicorn configs and be sure that it's fine use:
-    ```
-    cap <environmant> unicorn:sync
-    ```
+```
+cap <environment> unicorn:sync
+```
 
 To influence unicorn server use one of next commands:
-    ```
-    cap <environmant> unicorn:[start stop restart reload upgrade status force-stop]
-    ```
+```
+cap <environment> unicorn:[start stop restart reload upgrade status force-stop]
+```
 
 
 Postgresql:
 =================
 
 To upload pg config use:
-    ```
-    cap <environmant> pg:setup
-    ```
+```
+cap <environment> pg:setup
+```
 
 To download pg configs and be sure that it's fine use:
-    ```
-    cap <environmant> pg:sync
-    ```
+```
+cap <environment> pg:sync
+```
 
 To show lisf of current users and DBs use:
-    ```
-    cap <environmant> pg:list
-    ```
+```
+cap <environment> pg:list
+```
 
 To access psql console use:
-    ```
-    cap <environmant> pg:psql
-    ```
+```
+cap <environment> pg:psql
+```
 
 To drop current db and delete current user (get that values from config) use:
-    ```
-    cap <environmant> pg:drop_db_and_user``
-    ```
-
-
+```
+cap <environment> pg:drop_db_and_user
+```
 
 Assets precompile:
 =================
 
 If you want precompile assets faster, add next gem to your Gemfile and it will fork compilation for each CPU core:
-    ```
-    gem 'sprockets-derailleur', '0.0.9'
-    ```
+```
+gem 'sprockets-derailleur', '0.0.9'
+```
 
 If assets precompile took too many time, you can compile them locally and then copy with command:
-    ```
-    cap <environmant> deploy:compile_assets_locally
-    ```
+```
+cap <environment> deploy:compile_assets_locally
+```
 
 Remote debuging:
 =================
 
 To open PG console from local computer use
-    ```
-    cap <environmant> pg:psql
-    ```
+```
+cap <environment> pg:psql
+```
+
 To open rails console from local computer use
-    ```
-    cap <environmant> pg:psql
-    ```
+```
+cap <environment> pg:psql
+```
 
 To download all logs from your ptoject use:
-    ```
-    cap <environmant> sync:logs
-    ```
+```
+cap <environment> sync:logs
+```
 
 To download unicorn configs use:
-    ```
-    cap <environmant> sync:unicorn
-    ```
+```
+cap <environment> sync:unicorn
+```
 
 To download nginx configs use:
-    ```
-    cap <environmant> sync:nginx
-    ```
+```
+cap <environment> sync:nginx
+```
 
 To download all configs and logs use:
-    ```
-    cap <environmant> sync:all
-    ```
+```
+cap <environment> sync:all
+```
 
 ( All downloaded files you can find in deploy/files_from_server folder )
 
@@ -199,7 +197,7 @@ To download all configs and logs use:
 Solving problems:
 ===================
 
-1.   If you faced with next issue `PG::ConnectionBad: FATAL:  password authentication failed for user "<username>"` execute next steps to resolve this problem:
+1.  If you faced with next issue `PG::ConnectionBad: FATAL:  password authentication failed for user "<username>"` execute next steps to resolve this problem:
    * open project directory from console and delete next files: "db/database.yml" and "shared/config/database.yml".
    * connect to postgres, remove database and user using next commands from console:
      ```
