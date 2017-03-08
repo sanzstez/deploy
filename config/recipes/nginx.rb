@@ -6,16 +6,16 @@ namespace :nginx do
       sudo "rm -f #{fetch(:nginx_path)}/sites-available/default"
 
       template "nginx.conf.erb", "#{fetch(:nginx_path)}/nginx.conf"
-      template "nginx_app.erb", "#{fetch(:nginx_path)}/sites-available/#{fetch(:application)}"
+      template "nginx_app.erb", "#{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)}"
 
-      sudo "ln -sf #{fetch(:nginx_path)}/sites-available/#{fetch(:application)} #{fetch(:nginx_path)}/sites-enabled/#{fetch(:application)}"
+      sudo "ln -sf #{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)} #{fetch(:nginx_path)}/sites-enabled/#{fetch(:application_name)}"
     end
   end
 
   task :sync do
     on roles(:all) do
       sync "#{fetch(:nginx_path)}/nginx.conf", "nginx", clear: true
-      sync "#{fetch(:nginx_path)}/sites-available/#{fetch(:application)}", "nginx", recursive: true
+      sync "#{fetch(:nginx_path)}/sites-available/#{fetch(:application_name)}", "nginx", recursive: true
     end
   end
 

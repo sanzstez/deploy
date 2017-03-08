@@ -15,11 +15,11 @@ USAGE="Usage: $0 <start|stop|restart|upgrade|rotate|force-stop>"
 
 # app settings
 USER=<%= fetch(:user) %>
-APP_NAME=<%= fetch(:application) %>
+APP_NAME=<%= fetch(:application_name) %>
 APP_ROOT=<%= fetch(:app_home_path) %>
 
 # environment settings
-CMD="cd $APP_ROOT/current && ( export RAILS_ENV='<%= fetch(:rails_env) %>' ; ~/.rvm/bin/rvm default do bundle exec unicorn -c $APP_ROOT/shared/config/unicorn.rb -E <%= fetch(:rails_env) %> -D  )"
+CMD="cd $APP_ROOT/current && ( export RAILS_ENV='<%= fetch(:rails_env) %>' ; $APP_ROOT/rvm1scripts/rvm-auto.sh . bundle exec unicorn -c $APP_ROOT/shared/config/unicorn.rb -E <%= fetch(:rails_env) %> -D  )"
 PID="$APP_ROOT/shared/pids/unicorn.pid"
 OLD_PID="$PID.oldbin"
 

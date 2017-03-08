@@ -40,9 +40,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
     rake (11.2.2)
-    rvm1-capistrano3 (1.4.0)
-      capistrano (~> 3.0)
-      sshkit (>= 1.2)
     sshkit (1.11.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -62,9 +59,8 @@ DEPENDENCIES
   capistrano-rails-console
   capistrano-safe-deploy-to (~> 1.1)
   capistrano-ssh-doctor (~> 1.0)
-  rvm1-capistrano3 (~> 1.4)
   sshkit (~> 1.10)
   sshkit-sudo (~> 0.1)
 
 BUNDLED WITH
-   1.11.2
+   1.14.6

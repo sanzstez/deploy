@@ -9,7 +9,7 @@ set eventqueue
     slots 100
 
 set httpd port 2812 and
-  allow <%= fetch(:application) %>:<%= fetch(:monit_password) %>
+  allow <%= fetch(:application_name) %>:<%= fetch(:monit_password) %>
   use address localhost  # only accept connection from localhost
   allow localhost
 

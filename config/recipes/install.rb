@@ -67,6 +67,9 @@ namespace :install do
 
   task :nginx do
     on roles(:all) do
+      sudo 'wget --quiet -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add -'
+      sudo 'add-apt-repository -s "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx"'
+      sudo 'apt-get update'
       sudo 'apt-get -y install nginx'
     end
   end
@@ -82,9 +85,8 @@ namespace :install do
 
   task :nodejs do
     on roles(:all) do
-      # sudo "add-apt-repository -y ppa:chris-lea/node.js"
-      sudo "apt-get update"
-      sudo "apt-get -y install nodejs npm nodejs-legacy"
+      sudo 'curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -'
+      sudo "apt-get -y install nodejs"
     end
   end
 
@@ -111,7 +113,7 @@ namespace :install do
       sudo "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3"
       execute "test -d $HOME/.rvmx || curl -L get.rvm.io | bash -s stable"
       execute 'grep -E "source $HOME/.rvm/scripts/rvm" ~/.bash_profile || echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile'
-      execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)} --default && gem install bundler --no-ri --no-rdoc"
+      execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)}@global --default && gem install bundler --no-ri --no-rdoc"
     end
   end
 
