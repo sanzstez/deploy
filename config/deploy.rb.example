@@ -1,11 +1,12 @@
 lock '3.5.0'
 
-server '95.85.17.78', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
+server '188.226.132.129', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
 set :application_name, "learn"
 set :deploy_user, 'deploy'
 set :repo_url, 'git@github.com:RailsApps/learn-rails.git'
-set :nginx_server_name, "95.85.17.78"
+set :nginx_server_name, "188.226.132.129"
 set :ruby_version, 'ruby-2.3.1'
+set :rails_env, fetch(:stage)
 
 set :pg_env, fetch(:rails_env)
 set :pg_encoding, "utf8"
@@ -13,6 +14,7 @@ set :pg_database, "#{fetch(:application_name)}_#{fetch(:stage)}"
 set :pg_user, fetch(:application_name)
 set :pg_host, "localhost"
 set :pg_password, 'qwerty123'
+set :pg_templates_path, 'config/templates'
 
 set :monit_notification_type, :email # or :slack . Configure mailserver in monitrc file or slack in slack_notifications.sh
 set :monit_password, "monit_pass"
