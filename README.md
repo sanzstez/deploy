@@ -2,28 +2,29 @@ This project is set of capistrano receipts, which help to deploy your applicatio
 This scripts help you to install all needed software to the server from scratch, then push all configuration files and deploy the project. Also, it helps you to debug issues, read logs, use db and rails consoles and many more.
 
 For now added receipts to setup next tech:
-nginx, postgresql, unicorn, rvm, monit
+nginx, postgresql, unicorn (with autostart after server reboot), rvm, monit, munin
 ( but you can easally add your own receipts )
 
 Setup:
 ======
 
-1. First you need to download this repo and place it in the root folder of your Rails project.
+1. First you need to download this repo.
 2. Project has separate Gemset, so you need to install all gems with: bundle install
 3. Configure deploy:
 - set up deploy environments
 - create your deploy script from example in config/deploy.rb.example
 - then you should update config varibles in deploy.rb file, minimal set: server, application_name, repo_url, nginx_server_name, ruby_version
+4. Copy deploy scripts from deploy.example folder into you project. (you can copy separately folder or integrate deploy script into your app Gemfile)
 
 Deploy:
 =======
 
 Workflow on new VPS:
 ```
-cap <environmant> install:adduser_nonpassword user=root
-cap <environmant> install:all
-cap <environmant> setup
-cap <environmant> setup:all
+cap <environment> install:adduser_nonpassword user=root
+cap <environment> install:all
+cap <environment> setup
+cap <environment> setup:all
 ```
 Monit:
 =========

@@ -2,6 +2,7 @@ namespace :munin do
   desc "Setup all Munin configuration"
   task :setup do
     invoke "munin:config"
+    invoke "munin:restart"
     invoke "munin:nginx_basic_auth"
   end
 
