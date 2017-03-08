@@ -1,0 +1,69 @@
+upstream <%= fetch(:application_name) %> {
+  server unix:<%= fetch(:unicorn_sock_path) %> fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name <%= fetch(:nginx_server_name) %>;
+
+  root <%= fetch(:current_path) %>/public;
+
+  # Static content
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  location /monit/ {
+    auth_basic            "Restricted";
+    auth_basic_user_file  /etc/nginx/monit_passwd;
+
+    rewrite ^/monit/(.*) /$1 break;
+    proxy_ignore_client_abort on;
+    proxy_pass   http://127.0.0.1:2812;
+    proxy_set_header Host $host;
+  }
+
+  location /munin/static/ {
+    alias /etc/munin/static/;
+    expires modified +1w;
+  }
+
+  location /munin {
+    auth_basic            "Restricted";
+    auth_basic_user_file  /etc/nginx/munin_passwd;
+
+    alias /var/cache/munin/www/;
+    expires modified +310s;
+  }
+
+  try_files $uri/index.html $uri @unicorn;
+  location @unicorn {
+      proxy_pass http://<%= fetch(:application_name) %>;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect off;
+  }
+
+  error_page 503 @503;
+
+  # Return a 503 error if the maintenance page exists.
+  if (-f <%= fetch(:shared_path) %>/public/system/maintenance.html) {
+    return 503;
+  }
+
+  location @503 {
+    # Serve static assets if found.
+    if (-f $request_filename) {
+      break;
+    }
+
+    # Set root to the shared directory.
+    root <%= fetch(:shared_path) %>/public;
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+
+  client_max_body_size 100M;
+  keepalive_timeout 10;
+}
