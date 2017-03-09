@@ -5,7 +5,7 @@ set :application_name, "learn"
 set :deploy_user, 'deploy'
 set :repo_url, 'git@github.com:RailsApps/learn-rails.git'
 set :nginx_server_name, "188.226.132.129"
-set :ruby_version, 'ruby-2.3.1'
+set :ruby_version, 'ruby-2.3.3'
 set :rails_env, fetch(:stage)
 
 set :pg_env, fetch(:rails_env)
