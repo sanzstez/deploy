@@ -1,30 +1,38 @@
 This project is set of capistrano receipts, which help to deploy your application to new VPS in 20 minutes.
-This scripts help you to install all needed software to the server from scratch, then push all configuration files and deploy the project. Also, it helps you to debug issues, read logs, use db and rails consoles and many more.
+This scripts help you to install all needed software to the server from scratch, then push all configuration files and deploy the project.
 
+```
 For now added receipts to setup next tech:
-nginx, postgresql, unicorn (with autostart after server reboot), rvm, monit, munin
-( but you can easally add your own receipts )
+
+nginx (latest)
+postgresql-9.6
+nodejs (latest)
+unicorn (with autostart script after server reboot)
+rvm
+monit
+munin
+( but you also can add own receipts )
+```
 
 Setup:
 ======
 
-1. First you need to download this repo.
-2. Project has separate Gemset, so you need to install all gems with: bundle install
-3. Configure deploy:
-- set up deploy environments
-- create your deploy script from example in config/deploy.rb.example
-- then you should update config varibles in deploy.rb file, minimal set: server, application_name, repo_url, nginx_server_name, ruby_version
-4. Copy deploy scripts from deploy.example folder into you project. (you can copy separately folder or integrate deploy script into your app Gemfile)
+1) Generate new rails application with https://github.com/RailsApps/rails_apps_composer and push it in Git-repository or use existed project. 
+2) Clone rollset repository into separately folder.
+3) Rollset has separate Gemset, so you need to install all gems with: bundle install
+3. Copy deploy scripts from deploy.example folder into you Rails project. (You can copy separately folder or integrate deploy script into your app Gemfile)
 
-Deploy:
+Provisioning:
 =======
 
-Workflow on new VPS:
+Workflow. Run next commands on your local machine:
 ```
-cap <environment> install:adduser_nonpassword user=root
-cap <environment> install:all
-cap <environment> setup
-cap <environment> setup:all
+
+2) ./init.sh
+2) cap <environment> install:adduser_nonpassword user=root
+3) cap <environment> install:all
+4) cap <environment> setup
+5) cap <environment> setup:all
 ```
 
 Monit:
