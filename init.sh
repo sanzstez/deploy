@@ -109,11 +109,7 @@ MUNIN_PASSWORD=${MUNIN_PASSWORD:-$RANDOM_PASSWORD}
 echo -e "\n\e[0;32mMunin password: \e[5;32;47m $MUNIN_PASSWORD \e[0m\n"
 echo -e "=========================\n"
 
-cat > $PWD/config/deploy/$STAGE.rb <<-EOF
-server '$SERVER', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
-
-set :stage, '$STAGE'
-set :branch, 'master'
+cat > $PWD/config/config_variables.rb <<-EOF
 set :repo_url, '$REPO_URL'
 
 set :application_name, '$APPLICATION_NAME'
@@ -124,10 +120,12 @@ set :pg_password, '$DATABASE_PASSWORD'
 set :monit_password, "$MONIT_PASSWORD"
 set :munin_password, "$MUNIN_PASSWORD"
 set :ubuntu_version, "$UBUNTU_VERSION"
+
+server '$SERVER', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:deploy_user), primary: true
 EOF
 
 echo -e "\n\n\========================="
-echo -e "Stage deploy config was saved in \e[1m config/deploy/$STAGE.rb"
+echo -e "Stage deploy config was saved in \e[1m config/config_variables.rb"
 echo -e "=========================\n"
 
 echo -e '\E[37;44m'"\033[1mExecute current commands (Step by step): \033[0m\n"

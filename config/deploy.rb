@@ -1,24 +1,16 @@
 lock '3.5.0'
 
-server '188.226.132.129', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:user), primary: true
-set :application_name, "learn"
-set :deploy_user, 'deploy'
-set :repo_url, 'git@github.com:RailsApps/learn-rails.git'
-set :nginx_server_name, "188.226.132.129"
-set :ruby_version, 'ruby-2.3.3'
-set :rails_env, fetch(:stage)
+load 'config/config_path.rb'
+load 'config/config_variables.rb'
 
+set :rails_env, fetch(:stage)
 set :pg_env, fetch(:rails_env)
 set :pg_encoding, "utf8"
 set :pg_database, "#{fetch(:application_name)}_#{fetch(:stage)}"
 set :pg_user, fetch(:application_name)
 set :pg_host, "localhost"
-set :pg_password, 'qwerty123'
-set :pg_templates_path, 'config/templates'
 
 set :monit_notification_type, :email # or :slack . Configure mailserver in monitrc file or slack in slack_notifications.sh
-set :monit_password, "monit_pass"
-set :munin_password, "munin_pass"
 
 set :user, ENV['user'] || fetch(:deploy_user)
 set :deploy_to, "/home/#{fetch(:user)}/applications/#{fetch(:application_name)}"
@@ -27,7 +19,6 @@ set :unicorn_name, "unicorn_#{fetch(:application_name)}"
 
 set :linked_files, %w{config/database.yml config/unicorn.rb config/secrets.yml}
 set :linked_dirs, fetch(:linked_dirs, []) + %w{log pids sockets public/uploads public/assets tmp/cache}
-
 
 set :db_local_clean, true
 set :db_remote_clean, true
@@ -41,7 +32,7 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :bundle_binstubs, nil
-set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:user) }
+set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:deploy_user) }
 set :keep_releases, 5
 
 after 'postgresql:generate_database_yml', 'pg:setup'
@@ -60,5 +51,4 @@ namespace :requirements do
   end
 end
 
-load 'config/config_path.rb'
 Dir.glob('config/recipes/*.rb').each { |r| load r }

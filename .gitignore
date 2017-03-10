@@ -1,6 +1,6 @@
 .DS_Store*
 
-config/deploy.rb
+config/config_variables.rb
 files_from_server/*
 log/*
 /db/*.sql
