@@ -1,26 +1,24 @@
-This project is set of capistrano receipts, which help to deploy your application to new VPS in 20 minutes.
+This project is set of capistrano receipts, which help to deploy your application to new Ubuntu based VPS in 20 minutes.
 This scripts help you to install all needed software to the server from scratch, then push all configuration files and deploy the project.
 
-```
 For now added receipts to setup next tech:
 
-nginx (latest)
-postgresql-9.6
-nodejs (latest)
-unicorn (with autostart script after server reboot)
-rvm
-monit
-munin
-( but you also can add own receipts )
-```
+1. nginx (latest)
+2. postgresql-9.6
+3. nodejs (latest)
+4. unicorn (with autostart script after server reboot)
+5. RVM
+6. Monit
+7. Munin
+8. etc.
 
 Setup:
 ======
 
-1) Generate new rails application with https://github.com/RailsApps/rails_apps_composer and push it in Git-repository or use existed project. 
-2) Clone rollset repository into separately folder.
-3) Rollset has separate Gemset, so you need to install all gems with: bundle install
-3. Copy deploy scripts from deploy.example folder into you Rails project. (You can copy separately folder or integrate deploy script into your app Gemfile)
+1. Generate new rails application with https://github.com/RailsApps/rails_apps_composer and push it in Git-repository or use existed project. 
+2. Clone rollset repository into separately folder.
+3. Rollset has separate Gemset, so you need to install all gems with: bundle install
+4. Copy deploy scripts from deploy.example folder into you Rails project. (You can copy separately folder or integrate deploy script into your app Gemfile)
 
 Provisioning:
 =======
@@ -28,11 +26,11 @@ Provisioning:
 Workflow. Run next commands on your local machine:
 ```
 
-2) ./init.sh
-2) cap <environment> install:adduser_nonpassword user=root
-3) cap <environment> install:all
-4) cap <environment> setup
-5) cap <environment> setup:all
+1. ./init.sh
+2. cap <environment> install:adduser_nonpassword user=root
+3. cap <environment> install:all
+4. cap <environment> setup
+5. cap <environment> setup:all
 ```
 
 Monit:
