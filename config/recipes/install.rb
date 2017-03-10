@@ -21,6 +21,7 @@ namespace :install do
       user = fetch(:deploy_user)
       unless test(:sudo, "grep -c '^#{user}:' /etc/passwd")
         sudo "adduser --disabled-password --gecos '' #{user} --ingroup sudo"
+        #sudo "locale-gen en_US.ISO-8859-1"
         sudo "echo '#{user}  ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers"
         execute "mkdir /home/#{user}/.ssh"
         set :ssk_public_key, ask('insert your ssh public key', nil)

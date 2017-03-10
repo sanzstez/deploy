@@ -121,7 +121,7 @@ set :monit_password, "$MONIT_PASSWORD"
 set :munin_password, "$MUNIN_PASSWORD"
 set :ubuntu_version, "$UBUNTU_VERSION"
 
-server '$SERVER', roles: [:web, :app, :db], port: fetch(:port), user: fetch(:deploy_user), primary: true
+server '$SERVER', roles: [:web, :app, :db], primary: true
 EOF
 
 echo -e "\n\n\========================="

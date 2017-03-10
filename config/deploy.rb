@@ -1,6 +1,5 @@
 lock '3.5.0'
 
-load 'config/config_path.rb'
 load 'config/config_variables.rb'
 
 set :rails_env, fetch(:stage)
@@ -32,7 +31,7 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :bundle_binstubs, nil
-set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:deploy_user) }
+set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:user) }
 set :keep_releases, 5
 
 after 'postgresql:generate_database_yml', 'pg:setup'
@@ -51,4 +50,5 @@ namespace :requirements do
   end
 end
 
+load 'config/config_path.rb'
 Dir.glob('config/recipes/*.rb').each { |r| load r }
