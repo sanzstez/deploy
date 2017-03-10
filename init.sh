@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# SSH PUBLIC KEY
+echo -e '\033[37;44m'"\033[1mPath to your public key: \033[0m"
+read -p "Enter: [$HOME/.ssh/id_rsa.pub] " PUBKEY_PATH
+PUBKEY_PATH=${PUBKEY_PATH:-$HOME/.ssh/id_rsa.pub}
+SSH_PUBLIC_KEY=$(cat $PUBKEY_PATH)
+
+echo -e "\n\033[0;32mKey was read from: \033[7m $PUBKEY_PATH \033[0m\n"
+echo -e "=========================\n"
+
 # UBUNTU VERSION 
 echo -e '\033[37;44m'"\033[1mSelect your Ubuntu version (1 or 2): \033[0m"
 echo -e "\033[1;34m1) Ubuntu 14.04 (trusty)\033[0m"
@@ -39,7 +48,7 @@ echo -e '\033[37;44m'"\033[1mServer IP or hostname: \033[0m"
 read -p "Enter: [127.0.0.1] " SERVER
 SERVER=${SERVER:-127.0.0.1}
 
-echo -e "\n\033[0;32mServer: \e[7m $SERVER \033[0m\n"
+echo -e "\n\033[0;32mServer: \033[7m $SERVER \033[0m\n"
 echo -e "=========================\n"
 
 # APPLICATION NAME
@@ -120,12 +129,13 @@ set :pg_password, '$DATABASE_PASSWORD'
 set :monit_password, "$MONIT_PASSWORD"
 set :munin_password, "$MUNIN_PASSWORD"
 set :ubuntu_version, "$UBUNTU_VERSION"
+set :ssh_public_key, "$SSH_PUBLIC_KEY"
 
 server '$SERVER', roles: [:web, :app, :db], primary: true
 EOF
 
-echo -e "\n\n\========================="
-echo -e "Stage deploy config was saved in \e[1m config/config_variables.rb"
+echo -e "\n\n========================="
+echo -e "Stage deploy config was saved in \033[1m config/config_variables.rb"
 echo -e "=========================\n"
 
 echo -e '\033[37;44m'"\033[1mExecute current commands (Step by step): \033[0m\n"
