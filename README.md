@@ -20,7 +20,7 @@ Setup:
 3. Rollset has separate Gemset, so you need to install all gems with: bundle install
 4. Copy deploy scripts from deploy.example folder into you Rails project. (You can copy separately folder or integrate deploy script into your app Gemfile)
 
-Provisioning:
+Provisioning and deploy:
 =======
 
 Workflow. Run next commands on your local machine from rollset directory:
@@ -36,6 +36,8 @@ Run deploy command on your local machine from Rails application directory:
 ```
 cap <environment> deploy
 ```
+
+OK. Thats it!
 
 Monit:
 =========
