@@ -37,7 +37,7 @@ Run deploy command on your local machine from Rails application directory:
 cap <environment> deploy
 ```
 
-OK. Thats it!
+OK. That's all!
 
 Monit:
 =========
