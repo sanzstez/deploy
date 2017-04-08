@@ -69,7 +69,7 @@ namespace :install do
   task :nginx do
     on roles(:all) do
       sudo 'wget --quiet -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add -'
-      sudo 'add-apt-repository -s "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx"'
+      sudo "add-apt-repository -s \"deb http://nginx.org/packages/mainline/ubuntu/ #{fetch(:ubuntu_version)} nginx\""
       sudo 'apt-get update'
       sudo 'apt-get -y install nginx'
     end
@@ -77,7 +77,7 @@ namespace :install do
 
   task :postgresql do
     on roles(:all) do
-      sudo 'add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"'
+      sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -'
       sudo 'apt-get update'
       sudo "apt-get -y install postgresql-9.6 libpq-dev"
