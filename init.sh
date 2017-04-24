@@ -139,7 +139,7 @@ echo -e "Stage deploy config was saved in \033[1m config/config_variables.rb"
 echo -e "=========================\n"
 
 echo -e '\033[37;44m'"\033[1mExecute current commands (Step by step): \033[0m\n"
-echo -e "\033[1;34mcap $STAGE install:adduser_nonpassword user=root\033[0m"
+echo -e "\033[1;34mcap $STAGE install:create_user user=root\033[0m"
 echo -e "\033[1;34mcap $STAGE install:all\033[0m"
 echo -e "\033[1;34mcap $STAGE setup\033[0m"
 echo -e "\033[1;34mcap $STAGE setup:all\033[0m\n"

@@ -26,7 +26,7 @@ Provisioning and deploy:
 Workflow. Run next commands on your local machine from rollset directory:
 ```
 1. ./init.sh
-2. cap <environment> install:adduser_nonpassword user=root
+2. cap <environment> install:create_user user=root
 3. cap <environment> install:all
 4. cap <environment> setup
 5. cap <environment> setup:all

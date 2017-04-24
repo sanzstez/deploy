@@ -15,34 +15,18 @@ namespace :install do
     end
   end
 
-  task :adduser_nonpassword do
-    desc "Run: cap deploy:setup user=root"
+  task :create_user do
     on roles(:all) do
       user = fetch(:deploy_user)
       unless test(:sudo, "grep -c '^#{user}:' /etc/passwd")
         sudo "adduser --disabled-password --gecos '' #{user} --ingroup sudo"
-        sudo "echo '#{user}  ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers"
+        sudo "echo '#{user}  ALL = (ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers"
         execute "mkdir /home/#{user}/.ssh"
         set :ssh_public_key, ask('Insert your ssh public key: ', nil) unless fetch(:ssh_public_key)
-        #set :ssh_public_key, ask('insert your ssh public key', nil)
         sudo "echo '#{fetch(:ssh_public_key)}' >> /home/#{user}/.ssh/authorized_keys"
         info "User added! Now start script again with that user."
       else
         info "User already exists."
-      end
-      exit
-    end
-  end
-
-  task :adduser do
-    desc "Add system user with username="
-    on roles(:all) do
-      user = ENV['username'] || fetch(:user)
-      unless test(:sudo, "grep -c '^#{user}:' /etc/passwd")
-        sudo "adduser --gecos '' #{user} --ingroup sudo"
-        info "User #{user} added!"
-      else
-        info "User #{user} already exists."
       end
       exit
     end
