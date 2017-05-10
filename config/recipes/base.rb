@@ -9,6 +9,7 @@ namespace :setup do
       invoke "unicorn:script"
       invoke "monit:setup"
       invoke "munin:setup"
+      invoke "logrotate:setup"
       invoke "nginx:restart"
     end
   end

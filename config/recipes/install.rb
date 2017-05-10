@@ -21,9 +21,13 @@ namespace :install do
       unless test(:sudo, "grep -c '^#{user}:' /etc/passwd")
         sudo "adduser --disabled-password --gecos '' #{user} --ingroup sudo"
         sudo "echo '#{user}  ALL = (ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers"
-        execute "mkdir /home/#{user}/.ssh"
+        sudo "mkdir -p /home/#{user}/.ssh"
+        sudo "chown #{user} /home/#{user}/.ssh"
+
         set :ssh_public_key, ask('Insert your ssh public key: ', nil) unless fetch(:ssh_public_key)
         sudo "echo '#{fetch(:ssh_public_key)}' >> /home/#{user}/.ssh/authorized_keys"
+        sudo "chown #{user} /home/#{user}/.ssh/authorized_keys"
+
         info "User added! Now start script again with that user."
       else
         info "User already exists."

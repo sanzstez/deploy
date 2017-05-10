@@ -1,0 +1,10 @@
+<%= fetch(:shared_path) %>/log/*.log {
+  daily
+  missingok
+  rotate 7
+  size 100M
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}
