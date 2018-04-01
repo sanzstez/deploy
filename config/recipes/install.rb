@@ -99,7 +99,7 @@ namespace :install do
 
   task :rvm do
     on roles(:all) do
-      sudo "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3"
+      execute "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
       execute "test -d $HOME/.rvmx || curl -L get.rvm.io | bash -s stable"
       execute 'grep -E "source $HOME/.rvm/scripts/rvm" ~/.bash_profile || echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile'
       execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)}@global --default && gem install bundler --no-ri --no-rdoc"
