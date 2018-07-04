@@ -46,7 +46,7 @@ namespace :install do
 
   task :dependencies do
     on roles(:all) do
-      sudo "apt-get -y install build-essential openssl libreadline6 libreadline6-dev curl git-core libreadline-dev"
+      sudo "apt-get -y install build-essential openssl libreadline6 libreadline6-dev curl git-core libreadline-dev ca-certificates"
       sudo "apt-get -y install zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxslt1-dev automake"
       sudo "apt-get -y install libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev python-software-properties"
       sudo "apt-get -y install libpq-dev libcurl4-openssl-dev libffi-dev software-properties-common python-software-properties"
@@ -68,13 +68,13 @@ namespace :install do
       sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -'
       sudo 'apt-get update'
-      sudo "apt-get -y install postgresql-9.6 libpq-dev"
+      sudo "apt-get -y install postgresql-10 postgresql-client-10"
     end
   end
 
   task :nodejs do
     on roles(:all) do
-      sudo 'curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -'
+      sudo 'curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -'
       sudo "apt-get -y install nodejs"
     end
   end
