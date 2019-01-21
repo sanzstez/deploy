@@ -31,7 +31,7 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :bundle_binstubs, nil
-set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:user) }
+set :ssh_options, { forward_agent: true, auth_methods: %w(publickey password), user: fetch(:user)#, proxy: Net::SSH::Proxy::Command.new('ssh  deploy@xx.xx.xx.xx -W %h:%p') }
 set :keep_releases, 5
 
 after 'postgresql:generate_database_yml', 'pg:setup'

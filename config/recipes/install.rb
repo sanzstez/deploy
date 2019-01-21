@@ -38,7 +38,7 @@ namespace :install do
 
   task :secure_root_user do
     on roles(:all) do
-      sudo "passwd root"
+      #sudo "passwd root"
       sudo "sed -i 's/^PermitRootLogin.*$/PermitRootLogin no/' /etc/ssh/sshd_config"
       sudo "service ssh restart"
     end
@@ -68,7 +68,7 @@ namespace :install do
       sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -'
       sudo 'apt-get update'
-      sudo "apt-get -y install postgresql-10 postgresql-client-10"
+      sudo "apt-get -y install postgresql-10 postgresql-client-10 postgresql-10-postgis-2.4 postgresql-10-postgis-scripts postgis"
     end
   end
 
