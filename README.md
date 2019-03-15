@@ -1,5 +1,5 @@
-This project is set of capistrano receipts, which help to deploy your application to new Ubuntu (14.04, 16.04) based VPS in 20 minutes.
-This scripts help you to install all needed software to the server from scratch, then push all configuration files and deploy the project.
+This project is set of capistrano recipes, which help to deploy your application to new Ubuntu (16.04, 18.04) based VPS in 20 minutes.
+Theese scripts helps you to install all needed software to the server from scratch, then push all configuration files and deploy the project.
 
 Supported hosting providers:
 1. Amazon EC2
@@ -10,9 +10,10 @@ Supported hosting providers:
 For now added receipts to setup next tech:
 
 1. nginx (latest)
-2. postgresql-9.6
+2. PostgreSQL 11 with PostGIS
 3. nodejs (latest)
 4. unicorn (with autostart script after server reboot)
+5. sidekiq (with autostart scripts after server reboot)
 5. RVM
 6. Monit
 7. Munin
@@ -46,22 +47,6 @@ cap <environment> deploy
 
 OK. That's all!
 
-
-Solving problems:
-===================
-
-1.  If you faced with next issue `PG::ConnectionBad: FATAL:  password authentication failed for user "<username>"` execute next steps to resolve this problem:
-   * open project directory from console and delete next files: "db/database.yml" and "shared/config/database.yml".
-   * connect to postgres, remove database and user using next commands from console:
-     ```
-     cap production pg:psql
-
-     DROP DATABASE <application_name>_<environment>;
-
-     DROP USER <application_name>;
-     ```
-
-Customization:
 ==============
 
 You can edit deploy/config/config_path.rb file if you want change config files location on server or local.
