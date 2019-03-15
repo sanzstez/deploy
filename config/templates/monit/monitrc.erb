@@ -9,16 +9,8 @@ set eventqueue
     slots 100
 
 set httpd port 2812 and
-  # allow <%= fetch(:application_name) %>:<%= fetch(:monit_password) %>
+  # allow <%= fetch(:application) %>:<%= fetch(:monit_password) %>
   use address localhost  # only accept connection from localhost
   allow localhost
-
-<% if fetch(:monit_notification_type).to_s == "email" %>
-  #set alert admins@gmail.com
-  #set mailserver mail.yourmailserver.com port 587
-  #  username "me@yourmailserver.com" password "mypassword"
-  #  using tlsv1
-  #  with timeout 30 seconds
-<% end %>
 
 include /etc/monit/conf.d/*

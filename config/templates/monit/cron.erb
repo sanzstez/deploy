@@ -3,4 +3,4 @@ check process crond with pidfile /run/crond.pid
   start program = "/etc/init.d/cron start"
   stop  program = "/etc/init.d/cron stop"
   if 5 restarts with 5 cycles then timeout
-  if does not exist for 2 cycle then <%= monit_notify %>
+  if does not exist for 2 cycle then alert

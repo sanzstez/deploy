@@ -2,13 +2,13 @@ namespace :install do
   desc "Run: cap deploy:setup install=true"
   task :all do
     on roles(:all) do
-      invoke("install:secure_root_user")
-      sudo "apt-get update"
+      invoke "install:secure_root_user"
       invoke "install:dependencies"
       invoke "install:nginx"
       invoke "install:postgresql"
+      invoke "install:redis" if fetch(:sidekiq_support)
       invoke "install:nodejs"
-      #invoke "install:bower"
+      invoke "install:yarn"
       invoke "install:monit"
       invoke "install:munin"
       invoke "install:rvm"
@@ -18,6 +18,7 @@ namespace :install do
   task :create_user do
     on roles(:all) do
       user = fetch(:deploy_user)
+
       unless test(:sudo, "grep -c '^#{user}:' /etc/passwd")
         sudo "adduser --disabled-password --gecos '' #{user} --ingroup sudo"
         sudo "echo '#{user}  ALL = (ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers"
@@ -46,10 +47,9 @@ namespace :install do
 
   task :dependencies do
     on roles(:all) do
-      sudo "apt-get -y install build-essential openssl libreadline6 libreadline6-dev curl git-core libreadline-dev ca-certificates"
-      sudo "apt-get -y install zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxslt1-dev automake"
-      sudo "apt-get -y install libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev python-software-properties"
-      sudo "apt-get -y install libpq-dev libcurl4-openssl-dev libffi-dev software-properties-common python-software-properties"
+      sudo "apt-get update"
+      sudo "apt-get -y install build-essential openssl curl git libreadline-dev ca-certificates"
+      sudo "apt-get -y install libpq-dev software-properties-common"
       sudo "apt-get -y install wget htop mc pv apache2-utils libmagickwand-dev imagemagick"
     end
   end
@@ -65,23 +65,26 @@ namespace :install do
 
   task :postgresql do
     on roles(:all) do
-      sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -'
+      sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'apt-get update'
-      sudo "apt-get -y install postgresql-10 postgresql-client-10 postgresql-10-postgis-2.4 postgresql-10-postgis-scripts postgis"
+      sudo "apt-get -y install postgresql-11 postgresql-11-postgis-2.4 postgresql-11-postgis-scripts"
     end
   end
 
   task :nodejs do
     on roles(:all) do
-      sudo 'curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -'
+      sudo 'curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -'
       sudo "apt-get -y install nodejs"
     end
   end
 
-  task :bower do
+  task :yarn do
     on roles(:all) do
-      sudo "npm install -g bower"
+      sudo 'curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -'
+      sudo "add-apt-repository \"deb https://dl.yarnpkg.com/debian/ stable main\""
+      sudo 'apt-get update'
+      sudo 'apt-get -y install yarn'
     end
   end
 
@@ -97,6 +100,12 @@ namespace :install do
     end
   end
 
+  task :redis do
+    on roles(:all) do
+      sudo "apt-get -y install redis-server"
+    end
+  end
+
   task :rvm do
     on roles(:all) do
       execute "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
@@ -105,6 +114,4 @@ namespace :install do
       execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)}@global --default && gem install bundler --no-ri --no-rdoc"
     end
   end
-
-
 end

@@ -1,6 +1,6 @@
-check system <%= fetch(:application_name) %> group system
-  if memory usage > 95% for 3 cycles then <%= monit_notify %>
-  if swap usage > 95% for 3 cycles then <%= monit_notify %>
-  if cpu usage (user) > 90% for 3 cycles then <%= monit_notify %>
-  if cpu usage (system) > 70% for 3 cycles then <%= monit_notify %>
-  if cpu usage (wait) > 50% for 3 cycles then <%= monit_notify %>
+check system <%= fetch(:application) %> group system
+  if memory usage > 95% for 3 cycles then alert
+  if swap usage > 95% for 3 cycles then alert
+  if cpu usage (user) > 90% for 3 cycles then alert
+  if cpu usage (system) > 70% for 3 cycles then alert
+  if cpu usage (wait) > 50% for 3 cycles then alert

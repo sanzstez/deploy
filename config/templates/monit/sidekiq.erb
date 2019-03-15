@@ -1,0 +1,5 @@
+check process sidekiq with pidfile <%= fetch(:sidekiq_pid_path) %>
+  depends on redis-server
+  start program = "/bin/systemctl start sidekiq" with timeout 30 seconds
+  stop program = "/bin/systemctl stop sidekiq" with timeout 20 seconds
+  if not exist then alert

@@ -1,4 +1,4 @@
 check process unicorn with pidfile <%= fetch(:unicorn_pid_path) %>
-  start program = "<%= fetch(:unicorn_script_path) %> start"
-  stop program = "<%= fetch(:unicorn_script_path) %> stop"
-  if does not exist for 1 cycle then restart
+  start program = "/bin/systemctl start unicorn" with timeout 30 seconds
+  stop program = "/bin/systemctl stop sidekiq" with timeout 20 seconds
+  if not exist then alert

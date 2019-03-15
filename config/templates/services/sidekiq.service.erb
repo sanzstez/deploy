@@ -1,0 +1,22 @@
+[Unit]
+Description=sidekiq for <%= fetch(:application) %> (<%= fetch(:rails_env) %>)
+After=syslog.target network.target redis-server.service unicorn.service
+
+[Service]
+Type=simple
+Environment=MALLOC_ARENA_MAX=2
+Environment=RAILS_ENV=<%= fetch(:rails_env) %>
+WorkingDirectory=<%= fetch(:current_path) %>
+ExecStart=/bin/bash -lc '<%= fetch(:app_home_path) %>/rvm1scripts/rvm-auto.sh . bundle exec sidekiq -e <%= fetch(:rails_env) %>'
+ExecReload=/bin/kill -TSTP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+PIDFile=<%= fetch(:sidekiq_pid_path) %>
+
+User=<%= fetch(:user) %>
+
+RestartSec=1
+Restart=on-failure
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=multi-user.target

@@ -17,8 +17,6 @@ timeout 30         # Usually 15 to 30 seconds. Sets the amount of time before a 
 # Set master PID location
 pid pid_file
 
-GC.copy_on_write_friendly = true if GC.respond_to?(:copy_on_write_friendly=) # Решительно не уверен, что значит эта строка, но я решил ее оставить.
-
 before_exec do |server|
   ENV["BUNDLE_GEMFILE"] = "#{root}/Gemfile"
 end

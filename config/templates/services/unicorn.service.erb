@@ -1,0 +1,21 @@
+[Unit]
+Description=unicorn for <%= fetch(:application) %> (<%= fetch(:rails_env) %>)
+After=redis.service postgresql.service
+
+[Service]
+Type=simple
+Environment=RAILS_ENV=<%= fetch(:rails_env) %>
+WorkingDirectory=<%= fetch(:current_path) %>
+ExecStart=/bin/bash -lc '<%= fetch(:app_home_path) %>/rvm1scripts/rvm-auto.sh . bundle exec unicorn_rails -E <%= fetch(:rails_env) %> -c <%= fetch(:unicorn_conf_path) %>'
+ExecReload =/bin/kill -USR2 $MAINPID
+ExecStop=/bin/kill -QUIT $MAINPID
+TimeoutStopSec=62
+PIDFile=<%= fetch(:unicorn_pid_path) %>
+
+User=<%= fetch(:user) %>
+
+Restart=always
+SyslogIdentifier=unicorn
+
+[Install]
+WantedBy=multi-user.target

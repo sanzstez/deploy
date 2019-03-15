@@ -5,4 +5,4 @@ check process sshd with
   stop program "/etc/init.d/ssh stop"
   if failed port 22 protocol ssh then restart
   if 5 restarts within 5 cycles then timeout
-  if does not exist for 2 cycle then <%= monit_notify %>
+  if does not exist for 2 cycle then alert

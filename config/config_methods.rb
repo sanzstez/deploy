@@ -1,27 +1,3 @@
-namespace :setup do
-  desc "Provisioning files"
-  task :all do
-    on roles(:all) do
-      invoke "secrets:setup"
-      invoke "nginx:setup"
-      invoke "nginx:configtest"
-      invoke "unicorn:setup"
-      invoke "unicorn:script"
-      invoke "monit:setup"
-      invoke "munin:setup"
-      invoke "logrotate:setup"
-      invoke "nginx:restart"
-    end
-  end
-end
-
-namespace :secrets do
-  desc "setup basic secrets.yml file"
-  task :setup do
-    template "secrets.yml.erb", fetch(:yml_conf_path), { user: fetch(:user), group: 'sudo' }
-  end
-end
-
 def upload(from, to, opt={})
   user = opt[:user] || "root"
   group = opt[:group] || "root"
@@ -59,26 +35,10 @@ def mkdir(path, opt={})
 end
 
 def template(name, to, opt={})
-  upload "#{fetch(:templates_path)}/#{name}", to, opt
+  upload "config/templates/#{name}", to, opt
 end
 
 def script(name, to, opt={})
   opt.merge!(execute: true)
-  upload "#{fetch(:scripts_path)}/#{name}", to, opt
-end
-
-def sync(from, service_name, opt={})
-  to = "#{fetch(:download_path)}/#{service_name}"
-  if opt.delete(:clear)
-    clear_folder = opt[:recursive] ? "#{to}/#{from.split("/").last}" : to
-    FileUtils.rm_rf clear_folder
-    FileUtils::mkdir_p clear_folder
-  end
-  download! from, to, opt
-end
-
-def interact(command)
-  cmd = "ssh -l #{fetch(:user)} #{host} -p #{fetch(:port)} -t '#{command}'"
-  info "Connecting to #{host}"
-  exec cmd
+  upload "config/templates/services/#{name}", to, opt
 end

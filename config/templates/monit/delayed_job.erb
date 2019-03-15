@@ -1,7 +1,0 @@
-check process delayed_job
-  with pidfile /app/shared/tmp/pids/delayed_job.pid
-  start program = "/etc/init.d/delayed_job start"
-  stop program = "/etc/init.d/delayed_job stop"
-  if 5 restarts with 5 cycles then timeout
-  if does not exist for 1 cycle then restart
-  if does not exist for 2 cycles then <%= monit_notify %>

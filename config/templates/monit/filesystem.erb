@@ -1,4 +1,4 @@
 # get path with command: df -h -T
 check filesystem datafs with path /dev/vda
   group server
-  if space usage > 90% for 5 times within 15 cycles then <%= monit_notify %>
+  if space usage > 90% for 5 times within 15 cycles then alert

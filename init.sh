@@ -9,24 +9,24 @@ SSH_PUBLIC_KEY=$(cat $PUBKEY_PATH)
 echo -e "\n\033[0;32mKey was read from: \033[7m $PUBKEY_PATH \033[0m\n"
 echo -e "=========================\n"
 
-# UBUNTU VERSION 
-echo -e '\033[37;44m'"\033[1mSelect your Ubuntu version (1 or 2): \033[0m"
-echo -e "\033[1;34m1) Ubuntu 14.04 (trusty)\033[0m"
-echo -e "\033[1;34m2) Ubuntu 16.04 (xenial)\033[0m"
+# UBUNTU VERSION
+echo -e '\033[37;44m'"\033[1mSelect your Ubuntu version (1 - 2): \033[0m"
+echo -e "\033[1;34m1) Ubuntu 16.04 (xenial)\033[0m"
+echo -e "\033[1;34m2) Ubuntu 18.04 (bionic)\033[0m"
 
 while [ -z $prompt ];
   do read -p "Your choise: " choice;
   case "$choice" in
-    1) eval "UBUNTU_VERSION=trusty"; break;;
-    2) eval "UBUNTU_VERSION=xenial"; break;;
-   * ) echo "Just enter 1 or 2, please.";;
+    1) eval "UBUNTU_VERSION=xenial"; break;;
+    2) eval "UBUNTU_VERSION=bionic"; break;;
+   * ) echo "Just enter 1 - 2, please.";;
   esac;
 done;
 
 echo -e "\n\033[0;32mUbuntu version: \033[7m $UBUNTU_VERSION \033[0m\n"
 echo -e "=========================\n"
 
-# STAGE 
+# STAGE
 echo -e '\033[37;44m'"\033[1mSelect stage (1 or 2): \033[0m"
 echo -e "\033[1;34m1) staging\033[0m"
 echo -e "\033[1;34m2) production\033[0m"
@@ -43,7 +43,7 @@ done;
 echo -e "\n\033[0;32mStage: \033[7m $STAGE \033[0m\n"
 echo -e "=========================\n"
 
-# SERVER IP 
+# SERVER IP
 echo -e '\033[37;44m'"\033[1mServer IP or hostname: \033[0m"
 read -p "Enter: [127.0.0.1] " SERVER
 SERVER=${SERVER:-127.0.0.1}
@@ -67,12 +67,19 @@ DEPLOY_USER=${DEPLOY_USER:-deploy}
 echo -e "\n\033[0;32mDeploy user: \033[7m $DEPLOY_USER \033[0m\n"
 echo -e "=========================\n"
 
-# REPO URL
-echo -e '\033[37;44m'"\033[1mApplication repository (Git): \033[0m"
-read -p "Enter: [git@github.com:RailsApps/learn-rails.git] " REPO_URL
-REPO_URL=${REPO_URL:-git@github.com:RailsApps/learn-rails.git}
+# sidekiq daemon
+echo -e '\033[37;44m'"\033[1mSidekiq Support? (y/n): \033[0m"
 
-echo -e "\n\033[0;32mApplication repository: \033[7m $REPO_URL \033[0m\n"
+while [ -z $prompt ];
+  do read -p "Your choise: " choice;
+  case "$choice" in
+    y) eval "SIDEKIQ_SUPPORT=true"; break;;
+    n) eval "SIDEKIQ_SUPPORT=false"; break;;
+   * ) echo "Just enter (y/n), please.";;
+  esac;
+done;
+
+echo -e "\n\033[0;32mSidekiq Support: \033[7m $SIDEKIQ_SUPPORT \033[0m\n"
 echo -e "=========================\n"
 
 # NGINX SERVER NAME
@@ -119,9 +126,8 @@ echo -e "\n\033[0;32mMunin password: \033[7m $MUNIN_PASSWORD \033[0m\n"
 echo -e "=========================\n"
 
 cat > $PWD/config/config_variables.rb <<-EOF
-set :repo_url, '$REPO_URL'
 
-set :application_name, '$APPLICATION_NAME'
+set :application, '$APPLICATION_NAME'
 set :deploy_user, '$DEPLOY_USER'
 set :nginx_server_name, '$NGINX_SERVER_NAME'
 set :ruby_version, '$RUBY_VERSION'
@@ -130,6 +136,7 @@ set :monit_password, "$MONIT_PASSWORD"
 set :munin_password, "$MUNIN_PASSWORD"
 set :ubuntu_version, "$UBUNTU_VERSION"
 set :ssh_public_key, "$SSH_PUBLIC_KEY"
+set :sidekiq_support, $SIDEKIQ_SUPPORT
 
 server '$SERVER', roles: [:web, :app, :db], primary: true
 EOF
