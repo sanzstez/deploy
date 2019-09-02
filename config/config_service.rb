@@ -3,7 +3,7 @@ set :rails_env, fetch(:stage)
 set :pg_env, fetch(:rails_env)
 set :pg_encoding, 'utf8'
 set :pg_database, "#{fetch(:application)}_#{fetch(:stage)}"
-set :pg_user, fetch(:application)
+set :pg_username, fetch(:application)
 set :pg_host, 'localhost'
 
 set :user, ENV['user'] || fetch(:deploy_user)
