@@ -1,4 +1,4 @@
-lock '3.5.0'
+lock '3.11.1'
 
 load 'config/config_methods.rb'
 load 'config/config_variables.rb'

@@ -3,7 +3,7 @@ namespace :setup do
   task :all do
     on roles(:all) do
       invoke "requirements:setup"
-      invoke "secrets:setup"
+      #invoke "secrets:setup"
       invoke "nginx:setup"
       invoke "unicorn:setup"
       invoke "sidekiq:setup" if fetch(:sidekiq_support)

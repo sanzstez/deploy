@@ -12,6 +12,7 @@ namespace :install do
       invoke "install:monit"
       invoke "install:munin"
       invoke "install:rvm"
+      invoke "install:bundler"
     end
   end
 
@@ -74,7 +75,7 @@ namespace :install do
 
   task :nodejs do
     on roles(:all) do
-      sudo 'curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -'
+      sudo 'curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -'
       sudo "apt-get -y install nodejs"
     end
   end
@@ -111,7 +112,13 @@ namespace :install do
       execute "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
       execute "test -d $HOME/.rvmx || curl -L get.rvm.io | bash -s stable"
       execute 'grep -E "source $HOME/.rvm/scripts/rvm" ~/.bash_profile || echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile'
-      execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)}@global --default && gem install bundler --no-ri --no-rdoc"
+      execute "source ~/.rvm/scripts/rvm && rvm install #{fetch(:ruby_version)} && rvm use #{fetch(:ruby_version)}@global --default"
+    end
+  end
+
+  task :bundler do
+    on roles(:all) do
+      execute "(source ~/.rvm/scripts/rvm && gem list -i '^bundler$') || gem install bundler --no-document"
     end
   end
 end

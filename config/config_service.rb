@@ -24,12 +24,11 @@ set :unicorn_sock_path, "#{fetch(:shared_path)}/sockets/unicorn.sock"
 #SIDEKIQ
 set :sidekiq_pid_path, "#{fetch(:shared_path)}/tmp/pids/sidekiq.pid"
 
-set :linked_files, %w(config/database.yml config/unicorn.rb config/secrets.yml)
+set :linked_files, %w(config/database.yml config/unicorn.rb)
 set :linked_dirs, fetch(:linked_dirs, []) + %w(log pids sockets public/uploads public/assets tmp/cache)
 
 set :log_level, :debug
 set :port, 22
-set :scm, :git
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :bundle_binstubs, nil

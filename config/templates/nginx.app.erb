@@ -9,7 +9,7 @@ server {
   root <%= fetch(:current_path) %>/public;
 
   # Static content
-  location ^~ /assets/ {
+  location ^~ /assets|packs/ {
     gzip_static on;
     expires max;
     add_header Cache-Control public;
