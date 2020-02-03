@@ -69,7 +69,7 @@ namespace :install do
       sudo 'wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -'
       sudo "add-apt-repository \"deb http://apt.postgresql.org/pub/repos/apt/ #{fetch(:ubuntu_version)}-pgdg main\""
       sudo 'apt-get update'
-      sudo "apt-get -y install postgresql-11 postgresql-11-postgis-2.4 postgresql-11-postgis-scripts"
+      sudo "apt-get -y install postgresql-12 postgresql-12-postgis-2.5 postgresql-12-postgis-2.5-scripts"
     end
   end
 
